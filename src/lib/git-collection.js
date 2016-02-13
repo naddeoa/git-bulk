@@ -13,8 +13,8 @@ class GitRepoCollection {
         this.repos = this.packageDirs.map((dir) => ({git: git(dir), dir: dir}));
     }
 
-    status(onlyChanged) {
-        const statusFunction = onlyChanged ? this._changedStatuses : this._status;
+    status(showAll) {
+        const statusFunction = showAll ? this._status : this._changedStatuses;
         this._act('status', (err, repo, data) => statusFunction.call(this, repo, new GitStatus(data)));
     }
 
