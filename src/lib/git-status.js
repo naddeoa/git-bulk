@@ -29,6 +29,7 @@ class GitStatus {
         } else if (this.anyUnpushed()) {
             return name.green;
         }
+        return name;
     }
 }
 

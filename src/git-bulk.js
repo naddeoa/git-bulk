@@ -2,11 +2,12 @@
 'use strict';
 
 const process = require('./lib/process');
+const argv = require('yargs').argv;
 
 const operations = {
-    status: require('./commands/git-bulk-status'),
+    status: (args) => require('./commands/git-bulk-status')(args.all),
     fetch: require('./commands/git-bulk-fetch')
 };
 
 const operation = operations[process.argv[2]];
-operation();
+operation(argv);

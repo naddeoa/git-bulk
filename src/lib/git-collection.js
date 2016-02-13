@@ -13,13 +13,21 @@ class GitRepoCollection {
         this.repos = this.packageDirs.map((dir) => ({git: git(dir), dir: dir}));
     }
 
-    status() {
-        this._act('status', (err, repo, data) => this._changedStatuses(repo, new GitStatus(data)));
+    status(onlyChanged) {
+        const statusFunction = onlyChanged ? this._changedStatuses : this._status;
+        this._act('status', (err, repo, data) => statusFunction.call(this, repo, new GitStatus(data)));
     }
 
     fetch() {
         this._act('fetch', (err, repo, data) => {
             console.log(`fetch ${path.basename(repo.dir)} ${err === null ? 'success'.green : 'error'.red}`);
+        });
+    }
+
+    _status(repo, status){
+        repo.git._run(['status', '--short', '-b'], (err, data) => {
+            console.log(status.colorName(path.basename(repo.dir)));
+            console.log(data);
         });
     }
 
@@ -29,10 +37,7 @@ class GitRepoCollection {
             return;
         }
 
-        repo.git._run(['status', '--short', '-b'], (err, data) => {
-            console.log(status.colorName(path.basename(repo.dir)));
-            console.log(data);
-        });
+        this._status(repo, status);
     }
 
     _act(method, callback) {

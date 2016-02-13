@@ -4,4 +4,5 @@
 const GitCollection = require('../lib/git-collection');
 const PackageFinder = require('../lib/package-finder');
 
-module.exports = () => new GitCollection(PackageFinder.getPackages()).status();
+module.exports = (changedOnly) => new GitCollection(PackageFinder.getPackages()).status(changedOnly);
+

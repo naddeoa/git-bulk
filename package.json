@@ -5,7 +5,8 @@
   "dependencies": {
     "colors": "^1.1.2",
     "immutable": "^3.7.6",
-    "simple-git": "^1.22.0"
+    "simple-git": "^1.22.0",
+    "yargs": "^3.32.0"
   },
   "devDependencies": {
     "nexe": "^1.1.0"
