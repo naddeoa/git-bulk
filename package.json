@@ -1,0 +1,24 @@
+{
+  "name": "git-bulk",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "colors": "^1.1.2",
+    "immutable": "^3.7.6",
+    "simple-git": "^1.22.0"
+  },
+  "devDependencies": {
+    "nexe": "^1.1.0"
+  },
+  "nexe": {
+    "input": "./src/git-bulk.js",
+    "output": "git-bulk^$",
+    "temp": "src",
+    "runtime": {
+      "framework": "node",
+      "version": "5.5.0",
+      "js-flags": "--use_strict",
+      "ignoreFlags": true
+    }
+  }
+}
