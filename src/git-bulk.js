@@ -5,6 +5,7 @@ const program = require('commander');
 const HelpStrings = require('./lib/help-strings');
 
 program.version(HelpStrings.version)
+  .description('Perform operations on git repositories in bulk')
   .command('status', HelpStrings.statusDoc)
   .command('fetch', HelpStrings.fetchDoc)
   .command('branch', HelpStrings.branchDoc)

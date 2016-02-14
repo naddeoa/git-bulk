@@ -1,6 +1,7 @@
+const packageJson = require('../../package.json');
 
 module.exports = {
-    version: '0.1',
+    version: packageJson.version,
     fetchDoc: 'Execute fetch on each repository, outputting the success/failure as it goes.',
     statusDoc: 'Execute git status on each repository, displaying output for those with changes.',
     branchDoc: 'Execute git branch on each repository',
