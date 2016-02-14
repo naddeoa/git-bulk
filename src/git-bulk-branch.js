@@ -8,7 +8,7 @@ const HelpStrings = require('./lib/help-strings');
 
 program
   .option('-a, --all', HelpStrings.allDoc)
-  .description(HelpStrings.statusDoc)
+  .description(HelpStrings.branchDoc)
   .parse(process.argv);
 
-new GitCollection(PackageFinder.getPackages()).status(program.all);
+new GitCollection(PackageFinder.getPackages()).branch(program.all);

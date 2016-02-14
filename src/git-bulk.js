@@ -7,6 +7,7 @@ const HelpStrings = require('./lib/help-strings');
 
 program.version(HelpStrings.version)
   .command('status', HelpStrings.statusDoc)
-  .command('fetch', HelpStrings.fetchDoc);
+  .command('fetch', HelpStrings.fetchDoc)
+  .command('branch', HelpStrings.branchDoc);
 
 program.parse(process.argv);

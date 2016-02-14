@@ -24,6 +24,20 @@ class GitRepoCollection {
         });
     }
 
+    branch(showAll) {
+        this._act('status', (err, repo, data) => {
+            const status = new GitStatus(data);
+            if (!showAll && !(status.anyChanged() || status.anyUnpushed())) {
+                return;
+            }
+            repo.git._run(['branch', '-v'], (err, data) => {
+                console.log(status.colorName(path.basename(repo.dir)));
+                console.log(data);
+            });
+        });
+
+    }
+
     _status(repo, status){
         repo.git._run(['status', '--short', '-b'], (err, data) => {
             console.log(status.colorName(path.basename(repo.dir)));
