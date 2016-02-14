@@ -1,4 +1,5 @@
 'use strict';
+require('colors');
 
 class GitStatus {
 
@@ -30,6 +31,13 @@ class GitStatus {
             return name.green;
         }
         return name;
+    }
+
+    toString(name) {
+        const branches = [this.data.current, this.data.tracking].join(' ➜ ');
+        const ahead = this.data.ahead ? ` ▲ ${this.data.ahead}`: '';
+        const behind = this.data.behind ? ` ▼ ${this.data.behind}`.red: '';
+        return `${this.colorName(name)} [${branches}${ahead}${behind}]`;
     }
 }
 

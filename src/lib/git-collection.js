@@ -1,10 +1,19 @@
 'use strict';
-
 const Immutable = require('immutable');
 const GitStatus = require('./git-status');
 const path = require('path');
 const git = require('simple-git');
 require('colors');
+
+const LOG_ARGUMENTS = Immutable.fromJS([
+    'log',
+    '--graph',
+    "--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'",
+    '--abbrev-commit',
+    '--date=relative'
+]);
+
+const LOG_ALL_ARGUMENTS = LOG_ARGUMENTS.push('--all');
 
 class GitRepoCollection {
 
@@ -14,8 +23,12 @@ class GitRepoCollection {
     }
 
     status(showAll) {
-        const statusFunction = showAll ? this._status : this._changedStatuses;
-        this._act('status', (err, repo, data) => statusFunction.call(this, repo, new GitStatus(data)));
+        this._runWithStatus(showAll, (repo, status) => {
+            repo.git._run(['status', '--short'], (err, data) => {
+                console.log(status.toString(path.basename(repo.dir)));
+                console.log(data);
+            });
+        });
     }
 
     fetch() {
@@ -25,33 +38,35 @@ class GitRepoCollection {
     }
 
     branch(showAll) {
+        this._runWithStatus(showAll, (repo, status) => {
+            repo.git._run(['branch', '-v'], (err, data) => {
+                console.log(status.toString(path.basename(repo.dir)));
+                console.log(data);
+            });
+        });
+    }
+
+    log(showAll, n, showAllBranches) {
+        this._runWithStatus(showAll, (repo, status) => {
+            const logArgs = (showAllBranches ? LOG_ALL_ARGUMENTS : LOG_ARGUMENTS).push(`-n ${n ? n : 10}`);
+
+            repo.git._run(logArgs.toJS(), (err, data) => {
+                console.log(status.toString(path.basename(repo.dir)));
+                console.log(data);
+                console.log();
+            });
+        });
+    }
+
+    _runWithStatus(showAll, handler) {
         this._act('status', (err, repo, data) => {
             const status = new GitStatus(data);
             if (!showAll && !(status.anyChanged() || status.anyUnpushed())) {
                 return;
             }
-            repo.git._run(['branch', '-v'], (err, data) => {
-                console.log(status.colorName(path.basename(repo.dir)));
-                console.log(data);
-            });
+
+            handler(repo, status);
         });
-
-    }
-
-    _status(repo, status){
-        repo.git._run(['status', '--short', '-b'], (err, data) => {
-            console.log(status.colorName(path.basename(repo.dir)));
-            console.log(data);
-        });
-    }
-
-    _changedStatuses(repo, status) {
-        const anyChanges = status.anyChanged() || status.anyUnpushed();
-        if (!anyChanges) {
-            return;
-        }
-
-        this._status(repo, status);
     }
 
     _act(method, callback) {
