@@ -8,5 +8,8 @@ module.exports = {
     logDoc: 'Execute git log on each repository.',
     maxCountDoc: 'Limit the number of commits displayed',
     allBranchesDoc: 'Show all branches in git log, not just the current branch.',
-    allDoc: 'Show output for all repositories, not only ones with changes'
+    resetDoc: 'Execute git reset on each repository',
+    repositoriesDoc: 'An optional subset of repositories to run against, where the name is a directory name, or a relative path to one.',
+    allDoc: 'Show output for all repositories, not only ones with changes',
+    usageDoc: '[options] [repositories...]'
 };

@@ -9,6 +9,7 @@ program.version(HelpStrings.version)
   .command('status', HelpStrings.statusDoc)
   .command('fetch', HelpStrings.fetchDoc)
   .command('branch', HelpStrings.branchDoc)
-  .command('log', HelpStrings.logDoc);
+  .command('log', HelpStrings.logDoc)
+  .command('reset', HelpStrings.resetDoc);
 
 program.parse(process.argv);

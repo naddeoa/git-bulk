@@ -7,8 +7,9 @@ const program = require('commander');
 const HelpStrings = require('./lib/help-strings');
 
 program
+  .usage(HelpStrings.usageDoc)
   .option('-a, --all', HelpStrings.allDoc)
   .description(HelpStrings.branchDoc)
   .parse(process.argv);
 
-new GitCollection(PackageFinder.getPackages()).branch(program.all);
+new GitCollection(PackageFinder.getPackages()).branch(program.all, program.args);

@@ -11,7 +11,9 @@ root with many repositories in a `src` folder.
 
 ## Operations
 These are the supported operations. It is assumed that `git-bulk` will be
-executed from the project root.
+executed from the project root. Most of these commands also support targeitng subsets
+of the repositories as well, which looks like `git-bulk status ./src/Repo1 ./src/Repo2 Repo3`.
+Repository names can be specified as directory names or paths.
 
 `git-bulk help`-
 Show the help menu with a list of all possibile operations.
@@ -31,10 +33,13 @@ be printed, along with whether it was successful or not.
 Execute a `git branch -v` on each of the gir repositories.
 
 `git-bulk log` -
-Execute a `git log` on each of the gir repositories. This will use a condensed,
+Execute a `git log` on each of the git repositories. This will use a condensed,
 custom graph view to display the log for each repo. Optionally pass `-n <number>`
 to change the amount of commits displayed, and `-A` to show all branches at once.
 
+`git-bulk reset` -
+Exeute a `git reset` on each git repository. You can pass a `-h` or `--hard` switch
+as well.
 
 ## Future operations
 
