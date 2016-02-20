@@ -11,12 +11,13 @@ root with many repositories in a `src` folder.
 
 ## Operations
 These are the supported operations. It is assumed that `git-bulk` will be
-executed from the project root. Most of these commands also support targeitng subsets
+executed from the project root. Most of these commands also support targeting subsets
 of the repositories as well, which looks like `git-bulk status ./src/Repo1 ./src/Repo2 Repo3`.
-Repository names can be specified as directory names or paths.
+Repository names can be specified as directory names or paths. For more information on these
+commands, run `git-bulk help <command>`.
 
 `git-bulk help`-
-Show the help menu with a list of all possibile operations.
+Show the help menu with a list of all possible operations.
 
 `git-bulk status` -
 Execute `git status` on all of the repositories that have any changes, where a
@@ -38,8 +39,15 @@ custom graph view to display the log for each repo. Optionally pass `-n <number>
 to change the amount of commits displayed, and `-A` to show all branches at once.
 
 `git-bulk reset` -
-Exeute a `git reset` on each git repository. You can pass a `-h` or `--hard` switch
+Execute a `git reset` on each git repository. You can pass a `-h` or `--hard` switch
 as well.
+
+`git-bulk rebase` - 
+Execute a `git rebase` on each git repository. The rebase will only affect 
+repos with changes, unless the `-a` flag is given. If the `-i` flag is given, 
+then rebase will be run in interactive mode. Repo names/paths can also be specified to run
+rebase on a subset of repos. The -a flag is still required, even when
+specifying repo names manually that have no changes.
 
 ## Future operations
 

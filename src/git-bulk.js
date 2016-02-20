@@ -10,6 +10,8 @@ program.version(HelpStrings.version)
   .command('fetch', HelpStrings.fetchDoc)
   .command('branch', HelpStrings.branchDoc)
   .command('log', HelpStrings.logDoc)
-  .command('reset', HelpStrings.resetDoc);
+  .command('reset', HelpStrings.resetDoc)
+  .command('rebase', HelpStrings.rebaseDoc)
+;
 
 program.parse(process.argv);

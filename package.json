@@ -1,12 +1,12 @@
 {
   "name": "git-bulk",
-  "version": "0.1",
+  "version": "0.0.1",
   "private": true,
   "dependencies": {
     "colors": "^1.1.2",
     "commander": "^2.9.0",
     "immutable": "^3.7.6",
-    "simple-git": "^1.22.0"
+    "simple-git": "^1.25.0"
   },
   "devDependencies": {
     "nexe": "^1.1.0"

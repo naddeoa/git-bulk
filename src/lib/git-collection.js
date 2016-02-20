@@ -56,8 +56,8 @@ class GitRepoCollection {
     }
 
     fetch() {
-        this._act('fetch', (err, repo) => {
-            console.log(`fetch ${repo.basename} ${err === null ? 'success'.green : 'error'.red}`);
+        this._runWithStatus(true, [], (repo, status) => {
+            repo.git.fetch(err => console.log(`fetch ${repo.basename} ${err === null ? 'success'.green : 'error'.red}`));
         });
     }
 
@@ -75,6 +75,13 @@ class GitRepoCollection {
         });
     }
 
+    /**
+     *
+     * @param {boolean} showAll
+     * @param {number} n
+     * @param {boolean} showAllBranches
+     * @param {Array<string>} targetRepoPaths
+     */
     log(showAll, n, showAllBranches, targetRepoPaths) {
         this._runWithStatus(showAll, targetRepoPaths, (repo, status) => {
             const logArgs = (showAllBranches ? LOG_ALL_ARGUMENTS : LOG_ARGUMENTS).push(`-n ${n ? n : 10}`);
@@ -106,12 +113,28 @@ class GitRepoCollection {
 
     /**
      *
+     * @param {boolean} all
+     * @param {boolean} interactive
+     * @param {Array<string>} targetRepoPaths
+     */
+    rebase(all, interactive, targetRepoPaths) {
+        const rebaseArgs = interactive ? ['rebase', '-i'] : ['rebase'];
+
+        this._runWithStatus(all, targetRepoPaths, (repo, status) => {
+            repo.git._run(rebaseArgs, (err) => {
+                console.log(`rebase ${repo.basename} ${err === null ? 'success'.green : 'error'.red}`);
+            });
+        });
+    }
+
+    /**
+     *
      * @param {Array<string>} targetRepoPaths
      * @returns {Immutable.List<GitPackage>}
      * @private
      */
     _filterByPaths(targetRepoPaths) {
-        const baseNames = Immutable.Set.of(targetRepoPaths)
+        const baseNames = Immutable.Set(targetRepoPaths)
           .map(repoPath => path.basename(repoPath));
 
         return this.repos.filter((repo) => baseNames.includes(repo.basename));
@@ -134,12 +157,6 @@ class GitRepoCollection {
             }
 
             handler(repo, status);
-        }));
-    }
-
-    _act(method, callback) {
-        this.repos.forEach((repo) => repo.git[method].call(repo.git, function (err, data) {
-            callback && callback(err, repo, data);
         }));
     }
 }
