@@ -1,7 +1,9 @@
 'use strict';
 const Immutable = require('immutable');
 const GitStatus = require('./git-status');
+const GitPackage = require('./git-package');
 const path = require('path');
+const fs = require('fs');
 const git = require('simple-git');
 require('colors');
 
@@ -13,32 +15,37 @@ const LOG_ARGUMENTS = Immutable.fromJS([
     '--date=relative'
 ]);
 
-const LOG_ALL_ARGUMENTS = LOG_ARGUMENTS.push('--all');
-
-class GitPackage {
-
-    /**
-     * @param {PackageRoot} packageList
-     */
-    constructor(packageRoot) {
-        this.git = git(packageRoot.path);
-        this.path = packageRoot.path;
-        this.basename = packageRoot.basename;
-    }
-
-    toString() {
-        return this.path;
+const isGitDir = function (dir) {
+    try {
+        fs.lstatSync(path.join(dir, '.git')).isDirectory();
+        return true;
+    } catch (e) {
+        return false;
     }
 }
+
+const LOG_ALL_ARGUMENTS = LOG_ARGUMENTS.push('--all');
 
 class GitRepoCollection {
 
     /**
      *
      * @param {Immutable.List<PackageRoot>} packageList
+     * @property {Immutable.List<GitPackage>} repos
      */
-    constructor(packageRoots) {
-        this.repos = packageRoots.map((packageRoot) => new GitPackage(packageRoot));
+    constructor(config) {
+        let dirs;
+        if (config.repositoryRoot) {
+            dirs = Immutable.fromJS(fs.readdirSync(config.repositoryRoot))
+              .map(dir => path.join(config.repositoryRoot, dir));
+        } else if (config.repositories) {
+            dirs = Immutable.fromJS(config.repositories);
+        } else {
+            throw 'Config needs to have either a repositoryRoot or repositories array';
+        }
+
+        this.repos = dirs.filter(isGitDir)
+          .map((packageRoot) => new GitPackage(packageRoot));
     }
 
     /**

@@ -16,7 +16,7 @@ of the repositories as well, which looks like `git-bulk status ./src/Repo1 ./src
 Repository names can be specified as directory names or paths. For more information on these
 commands, run `git-bulk help <command>`.
 
-`git-bulk help`-
+`git-bulk help` -
 Show the help menu with a list of all possible operations.
 
 `git-bulk status` -

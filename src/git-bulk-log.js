@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 'use strict';
-
 const GitCollection = require('./lib/git-collection');
-const PackageFinder = require('./lib/package-finder');
+const ConfigFinder = require('./lib/config-finder');
 const program = require('commander');
 const HelpStrings = require('./lib/help-strings');
 
@@ -14,4 +13,4 @@ program
   .description(HelpStrings.logDoc)
   .parse(process.argv);
 
-new GitCollection(PackageFinder.getPackages()).log(program.all, program.maxCount, program.allBranches, program.args);
+new GitCollection(ConfigFinder.getConfig()).log(program.all, program.maxCount, program.allBranches, program.args);

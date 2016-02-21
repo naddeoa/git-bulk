@@ -6,14 +6,11 @@ module.exports = {
      * @param {Array<string>} commandExamples
      * @return {function}
      */
-    examples: function(commandExamples){
-
-        return function(){
-            console.log('  Examples:');
-            console.log();
-            commandExamples.forEach((example) => console.log(`    $ ${example}`));
-            console.log();
-        };
+    examples: (commandExamples) => () => {
+        console.log('  Examples:');
+        console.log();
+        commandExamples.forEach((example) => console.log(`    $ ${example}`));
+        console.log();
     },
     version: packageJson.version,
     fetchDoc: 'Execute fetch on each repository, outputting the success/failure as it goes.',
