@@ -9,6 +9,14 @@ is to make managing changes and branches across multiple repositories easy.
 At the moment, it makes assumptions based on my own workspaces: a project single
 root with many repositories in a `src` folder.
 
+## Installation
+
+git-bulk can be installed through npm.
+
+```
+npm install -g git-bulk
+```
+
 ## Operations <sub><sup>`git-bulk help <command>`</sup></sub>
 These are the supported operations. It is assumed that `git-bulk` will be
 executed from the project root. Most of these commands also support targeting subsets
