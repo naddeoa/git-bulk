@@ -1,0 +1,4 @@
+module.exports = {
+    "repositories": ["./git-js", "./onion-oled-js", "./vim-visual-page-percent"]
+}
+

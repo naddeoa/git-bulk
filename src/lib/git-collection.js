@@ -5,6 +5,7 @@ const GitPackage = require('./git-package');
 const path = require('path');
 const fs = require('fs');
 const git = require('simple-git');
+const isDir = require('./is-dir');
 require('colors');
 
 const LOG_ARGUMENTS = Immutable.fromJS([
@@ -15,16 +16,9 @@ const LOG_ARGUMENTS = Immutable.fromJS([
     '--date=relative'
 ]);
 
-const isGitDir = function (dir) {
-    try {
-        fs.lstatSync(path.join(dir, '.git')).isDirectory();
-        return true;
-    } catch (e) {
-        return false;
-    }
-}
-
 const LOG_ALL_ARGUMENTS = LOG_ARGUMENTS.push('--all');
+
+const isGitDir = dir => isDir(path.join(dir, '.git'));
 
 class GitRepoCollection {
 

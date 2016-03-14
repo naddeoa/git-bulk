@@ -1,0 +1,9 @@
+[submodule "demo/onion-oled-js"]
+	path = demo/onion-oled-js
+	url = git@github.com:naddeoa/onion-oled-js.git
+[submodule "demo/git-js"]
+	path = demo/git-js
+	url = git@github.com:naddeoa/git-js.git
+[submodule "demo/vim-visual-page-percent"]
+	path = demo/vim-visual-page-percent
+	url = git@github.com:naddeoa/vim-visual-page-percent.git
