@@ -12,6 +12,7 @@ program.version(HelpStrings.version)
   .command('log', HelpStrings.logDoc)
   .command('reset', HelpStrings.resetDoc)
   .command('rebase', HelpStrings.rebaseDoc)
+  .command('checkout', HelpStrings.checkoutDoc)
 ;
 
 program.parse(process.argv);
