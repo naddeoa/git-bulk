@@ -23,5 +23,7 @@ module.exports = {
     repositoriesDoc: 'An optional subset of repositories to run against, where the name is a directory name, or a relative path to one.',
     allDoc: 'Show output for all repositories, not only ones with changes.',
     rebaseDoc: 'Execute git rebase on each repository.',
-    usageDoc: '[options] [repositories...]'
+    usageDoc: '[options] [repositories...]',
+    checkoutDoc: 'Execute git checkout on each repository',
+    branchNameDoc: 'The name of the branch. It will be created if it does not exist'
 };

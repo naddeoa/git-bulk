@@ -50,15 +50,15 @@ to change the amount of commits displayed, and `-A` to show all branches at once
 Execute a `git reset` on each git repository. You can pass a `-h` or `--hard` switch
 as well.
 
-`git-bulk rebase` - 
-Execute a `git rebase` on each git repository. The rebase will only affect 
-repos with changes, unless the `-a` flag is given. If the `-i` flag is given, 
+`git-bulk checkout` -
+Execute a `git checkout` on each git repository. Passing `-b branchName` is
+mandatory. This will checkout the branch on the target packages, or create it if
+it does not exist.
+
+`git-bulk rebase` -
+Execute a `git rebase` on each git repository. The rebase will only affect
+repos with changes, unless the `-a` flag is given. If the `-i` flag is given,
 then rebase will be run in interactive mode. Repo names/paths can also be specified to run
 rebase on a subset of repos. The -a flag is still required, even when
 specifying repo names manually that have no changes.
 
-## Future operations
-
-* `checkout` - For creating and changing branches in bulk, and in a subset
-  repositories.
-* `branch` - For listing and deleting branches.
