@@ -82,18 +82,18 @@ class GitRepoCollection {
      * @param {boolean} branchName the name of the branch to checkout or create and checkout
      * @param {Array<string>} targetRepoPaths the repos to operate on, defaulting to the ones with changes
      */
-    checkout(onAll, branchName, targetRepoPaths) {
+    checkout(onAll, branchName, upstream, targetRepoPaths) {
         this._runWithStatus(onAll, targetRepoPaths, (repo, status) => {
             repo.git.branch((err, branchSummary) => {
                 const branches = new Immutable.Set(branchSummary.all);
                 const branchExists = branches.contains(branchName);
                 const args = Immutable.fromJS(['checkout']);
 
-                repo.git._run((branchExists ? args.push(branchName) : args.push('-b', branchName)).toJS(), function (err, status) {
+                repo.git._run((branchExists ? args.push(branchName) : args.push('-b', branchName, upstream)).toJS(), function (err, status) {
                     if (err) {
                         console.log(err);
                     } else {
-                        console.log(`checkout ${status} ${repo.basename} ${err === null ? 'success'.green : 'error'.red}`);
+                        console.log(`checkout ${repo.basename} ${err === null ? 'success'.green : 'error'.red}`);
                     }
                 });
             });

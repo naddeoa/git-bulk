@@ -52,8 +52,9 @@ as well.
 
 `git-bulk checkout` -
 Execute a `git checkout` on each git repository. Passing `-b branchName` is
-mandatory. This will checkout the branch on the target packages, or create it if
-it does not exist.
+mandatory. Passing a `-u branchName` option will also set a tracking branch when
+creating branches. This will checkout the branch on the target packages, or
+create it if it does not exist.
 
 `git-bulk rebase` -
 Execute a `git rebase` on each git repository. The rebase will only affect
