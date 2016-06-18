@@ -1,6 +1,6 @@
 {
   "name": "git-bulk",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Perform operations on git repositories in bulk",
   "author": "Anthony Naddeo <anthony.naddeo@gmail.com>",
   "bin": {
