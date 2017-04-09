@@ -17,6 +17,7 @@ module.exports = {
     statusDoc: 'Execute git status on each repository, displaying output for those with changes.',
     branchDoc: 'Execute git branch on each repository.',
     logDoc: 'Execute git log on each repository.',
+    logCombineDoc: 'Like log, but combine output from all repositories, sorted by date.',
     maxCountDoc: 'Limit the number of commits displayed.',
     allBranchesDoc: 'Show all branches in git log, not just the current branch.',
     resetDoc: 'Execute git reset on each repository.',

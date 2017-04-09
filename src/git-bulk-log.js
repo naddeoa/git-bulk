@@ -10,7 +10,12 @@ program
   .option('-a, --all', HelpStrings.allDoc)
   .option('-n, --max-count <n>', HelpStrings.maxCountDoc)
   .option('-A, --all-branches', HelpStrings.allBranchesDoc)
+  .option('-c, --combine', HelpStrings.logCombineDoc)
   .description(HelpStrings.logDoc)
   .parse(process.argv);
 
-new GitCollection(ConfigFinder.getConfig()).log(program.all, program.maxCount, program.allBranches, program.args);
+if(program.combine){
+    new GitCollection(ConfigFinder.getConfig()).logCombine(program.all, program.maxCount, program.allBranches, program.args);
+}else{
+    new GitCollection(ConfigFinder.getConfig()).log(program.all, program.maxCount, program.allBranches, program.args);
+}

@@ -6,6 +6,7 @@ const path = require('path');
 const fs = require('fs');
 const git = require('simple-git');
 const isDir = require('./is-dir');
+const DateUtils = require('./date-utils');
 require('colors');
 
 const LOG_ARGUMENTS = Immutable.fromJS([
@@ -120,6 +121,35 @@ class GitRepoCollection {
     }
 
     /**
+     * Just like log, except the results will be sorted by date between all of the repos.
+     * @param {boolean} showAll
+     * @param {number} n
+     * @param {boolean} showAllBranches
+     * @param {Array<string>} targetRepoPaths
+     */
+    logCombine(showAll, n, showAllBranches, targetRepoPaths) {
+        const numRepos = targetRepoPaths.length;
+        const args = [
+            'log',
+            "--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset __%at__'",
+            '--abbrev-commit',
+            `-n ${n || 10}`
+        ];
+
+        const results = this._runAgainstRepos(showAll, targetRepoPaths, args, function(err, data, status, repo){
+            return data.map(line => `${repo.basename} ${line}`);
+        });
+
+        results.then(function(changeLines){
+            const combinedLines = changeLines.reduce((acc, lines) => acc.concat(lines), []);
+            console.log(combinedLines
+                        .sort(DateUtils.compare)
+                        .map(DateUtils.stripComparatorTimestamp)
+                        .join('\n'));
+        });
+    }
+
+    /**
      *
      * @param {boolean} resetAll
      * @param {boolean} hard
@@ -183,6 +213,38 @@ class GitRepoCollection {
 
             handler(repo, status);
         }));
+    }
+
+
+    /**
+     * @param {boolean} showAll Whether to show all repos or only ones with changes
+     * @param {Array<string>} filterRepoNames Filtered subset of repos to use
+     * @param {function(err, data, status repo) => ?} handler A function that will be passed
+     * the raw repo data.
+     * @returns {Promise} A Promise that resolves using a .all on each of the repos.
+     * You'll have an array of GitPackage objects to work with in a .then.
+     * @private
+     */
+    _runAgainstRepos(showAll, filterRepoNames, command, handler){
+        const repos = filterRepoNames.length > 0 ? this._filterByPaths(filterRepoNames) : this.repos;
+
+        const repoResults = repos.map(function(repo){
+            return new Promise((acc,rej) => {
+                repo.git.status.call(repo.git, function (err, data) {
+                    const status = new GitStatus(data);
+                    // If the repo should be considered unchanged and ignored
+                    if (!showAll && !(status.anyChanged() || status.anyUnpushed())) {
+                        acc(null);
+                    } else{
+                        repo.git._run(command, (err, data) => {
+                            acc(handler(err, data && data.split('\n'), status, repo));
+                        });
+                    }
+                });
+            });
+        });
+
+        return Promise.all(repoResults);
     }
 }
 
