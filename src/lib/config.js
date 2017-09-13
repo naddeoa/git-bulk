@@ -6,8 +6,9 @@ class Config {
      * @param repositoryRoot The file path to the the root of the repositories. If
      * this path is '/home/user/worskpace/src', then 'src' should contain many git
      * repositories.
-     * @param {Array<string>}repositories Can be specified in place of the repositoryRoot.
-     * Each item in this array should be the absolute path to a git repository.
+     * @param {Array} repositories Can be specified in place of the repositoryRoot.
+     * Each item in this array should be either the absolute path to a git repository
+     * or a map with a git repository properties.
      */
     constructor(repositoryRoot, repositories) {
         this.repositoryRoot = repositoryRoot;
