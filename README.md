@@ -17,6 +17,23 @@ git-bulk can be installed through npm.
 npm install -g git-bulk
 ```
 
+## Configuration
+
+In the directory or directories where you intend to run `git bulk` from create a new `.gitbulkconfig` file in following format:
+```
+module.exports = {
+    /* Either define single root containing all repositories */
+    "repositoryRoot": "./demo"
+    /* Or define each repository explicitly */
+    'repositories': [
+        /* List multiple repositories using just their absolute paths */
+        '%Repository absolute path%',
+        /* Or define additional properties for some or all of the repositories */
+        { 'name': 'Foo', path: '%Absolute path to parent directory%/ProjectFoo', 'group': 'main' }
+    ]
+}
+```
+
 ## Operations <sub><sup>`git-bulk help <command>`</sup></sub>
 These are the supported operations. It is assumed that `git-bulk` will be
 executed from the project root. Most of these commands also support targeting subsets

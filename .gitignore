@@ -2,3 +2,4 @@ node_modules
 git-bulk
 .idea/
 node/
+nbproject
