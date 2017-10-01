@@ -7,7 +7,9 @@ manage branches across multiple repositories as well. The goal for this project
 is to make managing changes and branches across multiple repositories easy.
 
 At the moment, it makes assumptions based on my own workspaces: a project single
-root with many repositories in a `src` folder.
+root with many repositories in a `src` folder. If you want to customize this
+behavior then you can add a `.gitbulkconfig` file. See the Configuraiton section
+below.
 
 ## Installation
 
@@ -22,14 +24,20 @@ npm install -g git-bulk
 In the directory or directories where you intend to run `git bulk` from create a new `.gitbulkconfig` file in following format:
 ```
 module.exports = {
-    /* Either define single root containing all repositories */
-    "repositoryRoot": "./demo"
-    /* Or define each repository explicitly */
+    // Either define single root containing all repositories
+    "repositoryRoot": "./projects"
+
+    // Or define each repository explicitly
     'repositories': [
-        /* List multiple repositories using just their absolute paths */
-        '%Repository absolute path%',
-        /* Or define additional properties for some or all of the repositories */
-        { 'name': 'Foo', path: '%Absolute path to parent directory%/ProjectFoo', 'group': 'main' }
+
+        // List multiple repositories using just their absolute paths
+        './projects/Project1'
+
+        // Or define additional properties for some or all of the repositories
+        {
+            name: 'ShortName',
+            path: './projects/LongNameProject',
+            group: 'front-end' }
     ]
 }
 ```
