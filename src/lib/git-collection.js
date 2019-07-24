@@ -90,12 +90,12 @@ class GitRepoCollection {
      */
     checkout(onAll, branchName, upstream, targetRepoPaths) {
         this._runWithStatus(onAll, targetRepoPaths, (repo, status) => {
-            repo.git.branch((err, branchSummary) => {
-                const branches = new Immutable.Set(branchSummary.all);
+            repo.git._run(['branch', "--format=%(refname:short)"], (err, branchSummary) => {
+                const branches = new Immutable.Set(branchSummary.split(/[\n\r]/).map(s => s.trim()));
                 const branchExists = branches.contains(branchName);
                 const args = Immutable.fromJS(['checkout']);
-
-                repo.git._run((branchExists ? args.push(branchName) : args.push('-b', branchName, upstream)).toJS(), function (err, status) {
+                const toRun = branchExists ? args.push(branchName) : args.push('-b', branchName, upstream)
+                repo.git._run((toRun).toJS(), function (err, status) {
                     if (err) {
                         console.log(err);
                     } else {
