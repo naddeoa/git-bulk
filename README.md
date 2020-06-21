@@ -16,7 +16,7 @@ below.
 git-bulk can be installed through npm.
 
 ```
-npm install -g git-bulk
+npm install -g @andreiled/git-bulk
 ```
 
 ## Configuration
