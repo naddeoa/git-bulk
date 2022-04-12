@@ -17,7 +17,7 @@
     "colors": "1.1.2",
     "commander": "2.9.0",
     "immutable": "3.7.6",
-    "simple-git": "1.25.0"
+    "simple-git": "3.5.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
