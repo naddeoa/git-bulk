@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "mocha": "^2.4.5",
+    "mocha": "^10.1.0",
     "nexe": "^1.1.0",
     "simple-mock": "^0.6.0"
   },
